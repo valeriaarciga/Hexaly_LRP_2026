@@ -7,7 +7,7 @@ authors = [
     {name = "Niels Wouda", email = "niels@appliedrouting.com"},
 ]
 license = "MIT"
-license-files = ["LICENSE.md"]
+license-files = { paths = ["LICENSE.md"] }
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = [
