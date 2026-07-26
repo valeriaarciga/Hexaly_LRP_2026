@@ -1,6 +1,10 @@
 version = 1
 revision = 3
 requires-python = ">=3.12, <4.0"
+resolution-markers = [
+    "sys_platform != 'win32'",
+    "sys_platform == 'win32'",
+]
 
 [[package]]
 name = "cfgv"
@@ -268,7 +272,7 @@ dev = [
 requires-dist = [
     { name = "numpy", specifier = ">=2.0.0" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.6.2" },
-    { name = "pyvrp", git = "https://github.com/AppliedRouting/Location-Routing-Challenge.git?rev=12f9a1e" },
+    { name = "pyvrp", directory = "vendor/pyvrp" },
     { name = "tqdm", specifier = ">=4.66.0" },
 ]
 provides-extras = ["dev"]
@@ -529,12 +533,48 @@ wheels = [
 [[package]]
 name = "pyvrp"
 version = "0.13.3"
-source = { git = "https://github.com/AppliedRouting/Location-Routing-Challenge.git?rev=12f9a1e#12f9a1e6fe09282cdd6c21b70aa147714aac779b" }
+source = { directory = "vendor/pyvrp" }
 dependencies = [
     { name = "matplotlib" },
     { name = "numpy" },
     { name = "tqdm" },
     { name = "vrplib" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "matplotlib", specifier = ">=2.2.0,<3.11.0" },
+    { name = "numpy", marker = "python_full_version < '3.12'", specifier = ">=1.15.2" },
+    { name = "numpy", marker = "python_full_version >= '3.12'", specifier = ">=1.26.0" },
+    { name = "tqdm", specifier = ">=4.64.1" },
+    { name = "vrplib", specifier = ">=1.4.0" },
+]
+
+[package.metadata.requires-dev]
+build = [
+    { name = "docblock", specifier = ">=0.1.6" },
+    { name = "gcovr", specifier = ">=8.6" },
+    { name = "meson", specifier = ">=1.0.0" },
+    { name = "ninja", specifier = ">=1.11.1" },
+]
+dev = [
+    { name = "pre-commit", specifier = ">=2.20.0" },
+    { name = "pytest", specifier = ">=6.0.0" },
+    { name = "pytest-codspeed", specifier = ">=2.2.1" },
+    { name = "pytest-cov", specifier = ">=6.1.1" },
+    { name = "pytest-sugar", specifier = ">=1.0.0" },
+    { name = "pytest-xdist", specifier = ">=3.6.1" },
+]
+docs = [
+    { name = "ipython", specifier = ">=8.6.0" },
+    { name = "nbsphinx", specifier = ">=0.8.9" },
+    { name = "numpydoc", specifier = ">=1.5.0" },
+    { name = "sphinx", specifier = ">=7.3.0,<8.2.0" },
+    { name = "sphinx-immaterial", specifier = ">=0.11.12" },
+]
+examples = [
+    { name = "jupyter", specifier = ">=1.0.0" },
+    { name = "tabulate", specifier = ">=0.9.0" },
 ]
 
 [[package]]

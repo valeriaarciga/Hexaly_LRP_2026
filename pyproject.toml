@@ -11,7 +11,7 @@ license-files = { paths = ["LICENSE.md"] }
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = [
-    "pyvrp @ git+https://github.com/AppliedRouting/Location-Routing-Challenge.git@12f9a1e",
+    "pyvrp",
     "numpy>=2.0.0",
     "tqdm>=4.66.0",
 ]
@@ -22,6 +22,11 @@ build-backend = "hatchling.build"
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.uv.sources]
+# Vendored copy of pyvrp @ 12f9a1e (see vendor/pyvrp/WINDOWS_PATCH_NOTES.md)
+# patched so it also builds with MSVC on Windows, not just GCC/MinGW.
+pyvrp = { path = "vendor/pyvrp" }
 
 [project.scripts]
 lrp = "lrp.cli:main"

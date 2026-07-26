@@ -5,6 +5,7 @@ if os.name == "nt":
     # Explicitly add specific paths known to contain required C++ runtimes
     known_paths = [
         r"C:\Windows\System32",
+        r"C:\Program Files\Git\mingw64\bin",
         r"C:\Program Files\Git\usr\bin",
     ]
     for p in known_paths:
