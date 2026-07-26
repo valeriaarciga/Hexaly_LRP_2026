@@ -1,0 +1,497 @@
+# Development train/test instance set — 30 COORDS instances.
+#
+# NOT the official competition set (that is private; SPEC §4.4). This is a
+# self-generated development set matching the SPEC §4.1 size distribution
+# (10 small + 10 medium + 10 large) and the §4.2 tightness / §4.3 structural
+# variety, but rendered entirely as COORDS (Euclidean) — including the "large"
+# tier, which here is just large-n COORDS standing in for the official
+# FULL_MATRIX/ZMM tier. Add real OSRM FULL_MATRIX instances later if you need
+# to exercise asymmetric / triangle-inequality-violating road distances.
+#
+# Generate a train/test split by running this config twice with disjoint
+# --seed-base offsets into separate output dirs:
+#
+#   smio-clrp-generate --config configs/dev-30.yaml --out instances/train --seed-base 0
+#   smio-clrp-generate --config configs/dev-30.yaml --out instances/test  --seed-base 100000
+#
+# Seeds live in a fresh 30000 range, disjoint from the mock (7000), sample
+# (100s), zmm (9000), and demo (4000) sets.
+#
+# rho_*_target are tuning knobs, not achieved values: the load-balanced
+# capacity sampler's per-depot integer ceilings pull achieved rho a few
+# percent below target, which is why tight/asymmetric entries target the
+# 0.87-0.98 band (mirrors mock-2026.yaml).
+
+generator_version: "0.1.0"
+
+instances:
+
+  # ===================== SMALL (n 200-500, m 10-20) =====================
+
+  - name: dev_small_loose_1
+    n: 220
+    m: 11
+    vehicle_capacity: 50
+    route_fixed_cost: 12.0
+    rho_depot_target: 0.40
+    rho_vehicle_target: 0.40
+    spatial: uniform
+    depot_positioning: random
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [200.0, 1000.0]
+    seed: 30001
+    capacity_load_balanced: true
+
+  - name: dev_small_loose_2
+    n: 260
+    m: 12
+    vehicle_capacity: 55
+    route_fixed_cost: 13.0
+    rho_depot_target: 0.45
+    rho_vehicle_target: 0.45
+    spatial: uniform
+    depot_positioning: random
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [250.0, 1100.0]
+    seed: 30002
+    capacity_load_balanced: true
+
+  - name: dev_small_moderate_1
+    n: 320
+    m: 14
+    vehicle_capacity: 50
+    route_fixed_cost: 22.0
+    rho_depot_target: 0.66
+    rho_vehicle_target: 0.73
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [400.0, 1500.0]
+    seed: 30003
+    capacity_load_balanced: true
+
+  - name: dev_small_moderate_2
+    n: 360
+    m: 15
+    vehicle_capacity: 55
+    route_fixed_cost: 20.0
+    rho_depot_target: 0.66
+    rho_vehicle_target: 0.73
+    spatial: mixed
+    depot_positioning: grid
+    demand: uniform
+    num_clusters: 5
+    demand_range: [1, 20]
+    opening_cost_range: [400.0, 1500.0]
+    seed: 30004
+    capacity_load_balanced: true
+
+  - name: dev_small_tight_1
+    n: 360
+    m: 15
+    vehicle_capacity: 55
+    route_fixed_cost: 26.0
+    rho_depot_target: 0.87
+    rho_vehicle_target: 0.90
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [500.0, 1500.0]
+    seed: 30005
+    capacity_load_balanced: true
+
+  - name: dev_small_tight_2
+    n: 400
+    m: 16
+    vehicle_capacity: 55
+    route_fixed_cost: 28.0
+    rho_depot_target: 0.87
+    rho_vehicle_target: 0.90
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [500.0, 1600.0]
+    seed: 30006
+    capacity_load_balanced: true
+
+  - name: dev_small_asym_depot_binding
+    n: 300
+    m: 12
+    vehicle_capacity: 50
+    route_fixed_cost: 20.0
+    rho_depot_target: 0.90
+    rho_vehicle_target: 0.40
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [400.0, 1500.0]
+    seed: 30007
+    capacity_load_balanced: true
+
+  - name: dev_small_asym_vehicle_binding
+    n: 340
+    m: 14
+    vehicle_capacity: 50
+    route_fixed_cost: 24.0
+    rho_depot_target: 0.40
+    rho_vehicle_target: 0.90
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [400.0, 1500.0]
+    seed: 30008
+    capacity_load_balanced: true
+
+  - name: dev_small_clustered_bimodal
+    n: 240
+    m: 12
+    vehicle_capacity: 55
+    route_fixed_cost: 14.0
+    rho_depot_target: 0.45
+    rho_vehicle_target: 0.45
+    spatial: clustered
+    depot_positioning: grid
+    demand: bimodal
+    num_clusters: 5
+    demand_range: [1, 50]
+    opening_cost_range: [300.0, 1200.0]
+    seed: 30009
+    capacity_load_balanced: true
+
+  - name: dev_small_cluster_proportional
+    n: 300
+    m: 10
+    vehicle_capacity: 50
+    route_fixed_cost: 10.0
+    rho_depot_target: 0.55
+    rho_vehicle_target: 0.55
+    spatial: mixed
+    depot_positioning: peripheral
+    demand: cluster_proportional
+    num_clusters: 5
+    demand_range: [1, 20]
+    opening_cost_range: [200.0, 2000.0]
+    seed: 30010
+    capacity_load_balanced: true
+
+  # ===================== MEDIUM (n 600-1200, m 20-40) =====================
+
+  - name: dev_medium_loose_1
+    n: 640
+    m: 21
+    vehicle_capacity: 65
+    route_fixed_cost: 16.0
+    rho_depot_target: 0.42
+    rho_vehicle_target: 0.42
+    spatial: uniform
+    depot_positioning: random
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [400.0, 1500.0]
+    seed: 30011
+    capacity_load_balanced: true
+
+  - name: dev_medium_loose_2
+    n: 720
+    m: 24
+    vehicle_capacity: 70
+    route_fixed_cost: 18.0
+    rho_depot_target: 0.45
+    rho_vehicle_target: 0.45
+    spatial: uniform
+    depot_positioning: random
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [450.0, 1600.0]
+    seed: 30012
+    capacity_load_balanced: true
+
+  - name: dev_medium_moderate_1
+    n: 820
+    m: 26
+    vehicle_capacity: 70
+    route_fixed_cost: 26.0
+    rho_depot_target: 0.66
+    rho_vehicle_target: 0.73
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [600.0, 2000.0]
+    seed: 30013
+    capacity_load_balanced: true
+
+  - name: dev_medium_moderate_2
+    n: 900
+    m: 28
+    vehicle_capacity: 75
+    route_fixed_cost: 24.0
+    rho_depot_target: 0.66
+    rho_vehicle_target: 0.73
+    spatial: mixed
+    depot_positioning: grid
+    demand: uniform
+    num_clusters: 6
+    demand_range: [1, 20]
+    opening_cost_range: [600.0, 2000.0]
+    seed: 30014
+    capacity_load_balanced: true
+
+  - name: dev_medium_tight_1
+    n: 900
+    m: 28
+    vehicle_capacity: 75
+    route_fixed_cost: 30.0
+    rho_depot_target: 0.88
+    rho_vehicle_target: 0.90
+    spatial: clustered
+    depot_positioning: co_located
+    demand: uniform
+    num_clusters: 8
+    demand_range: [1, 20]
+    opening_cost_range: [700.0, 2000.0]
+    seed: 30015
+    capacity_load_balanced: true
+
+  - name: dev_medium_tight_2
+    n: 1000
+    m: 30
+    vehicle_capacity: 80
+    route_fixed_cost: 30.0
+    rho_depot_target: 0.88
+    rho_vehicle_target: 0.90
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [700.0, 2100.0]
+    seed: 30016
+    capacity_load_balanced: true
+
+  - name: dev_medium_asym_depot_binding
+    n: 800
+    m: 26
+    vehicle_capacity: 70
+    route_fixed_cost: 24.0
+    rho_depot_target: 0.90
+    rho_vehicle_target: 0.45
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [600.0, 2000.0]
+    seed: 30017
+    capacity_load_balanced: true
+
+  - name: dev_medium_asym_vehicle_binding
+    n: 900
+    m: 28
+    vehicle_capacity: 70
+    route_fixed_cost: 26.0
+    rho_depot_target: 0.45
+    rho_vehicle_target: 0.90
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 20]
+    opening_cost_range: [600.0, 2000.0]
+    seed: 30018
+    capacity_load_balanced: true
+
+  - name: dev_medium_cluster_proportional
+    n: 760
+    m: 24
+    vehicle_capacity: 75
+    route_fixed_cost: 18.0
+    rho_depot_target: 0.50
+    rho_vehicle_target: 0.55
+    spatial: clustered
+    depot_positioning: grid
+    demand: cluster_proportional
+    num_clusters: 6
+    demand_range: [1, 20]
+    opening_cost_range: [500.0, 2000.0]
+    seed: 30019
+    capacity_load_balanced: true
+
+  - name: dev_medium_bimodal
+    n: 1100
+    m: 32
+    vehicle_capacity: 80
+    route_fixed_cost: 22.0
+    rho_depot_target: 0.60
+    rho_vehicle_target: 0.65
+    spatial: uniform
+    depot_positioning: grid
+    demand: bimodal
+    demand_range: [1, 50]
+    opening_cost_range: [600.0, 2200.0]
+    seed: 30020
+    capacity_load_balanced: true
+
+  # ===================== LARGE (n 1500-3000, m 30-50) =====================
+  # COORDS stand-in for the official FULL_MATRIX/ZMM tier.
+
+  - name: dev_large_loose_1
+    n: 1500
+    m: 30
+    vehicle_capacity: 100
+    route_fixed_cost: 25.0
+    rho_depot_target: 0.45
+    rho_vehicle_target: 0.45
+    spatial: uniform
+    depot_positioning: random
+    demand: uniform
+    demand_range: [1, 25]
+    opening_cost_range: [1000.0, 4000.0]
+    seed: 30021
+    capacity_load_balanced: true
+
+  - name: dev_large_loose_2
+    n: 1800
+    m: 34
+    vehicle_capacity: 100
+    route_fixed_cost: 28.0
+    rho_depot_target: 0.45
+    rho_vehicle_target: 0.48
+    spatial: uniform
+    depot_positioning: random
+    demand: uniform
+    demand_range: [1, 25]
+    opening_cost_range: [1000.0, 4000.0]
+    seed: 30022
+    capacity_load_balanced: true
+
+  - name: dev_large_moderate_1
+    n: 2000
+    m: 38
+    vehicle_capacity: 100
+    route_fixed_cost: 30.0
+    rho_depot_target: 0.66
+    rho_vehicle_target: 0.73
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 25]
+    opening_cost_range: [1200.0, 4500.0]
+    seed: 30023
+    capacity_load_balanced: true
+
+  - name: dev_large_moderate_2
+    n: 2200
+    m: 40
+    vehicle_capacity: 110
+    route_fixed_cost: 30.0
+    rho_depot_target: 0.66
+    rho_vehicle_target: 0.73
+    spatial: mixed
+    depot_positioning: grid
+    demand: uniform
+    num_clusters: 8
+    demand_range: [1, 25]
+    opening_cost_range: [1200.0, 4500.0]
+    seed: 30024
+    capacity_load_balanced: true
+
+  - name: dev_large_tight_1
+    n: 2400
+    m: 42
+    vehicle_capacity: 110
+    route_fixed_cost: 32.0
+    rho_depot_target: 0.88
+    rho_vehicle_target: 0.90
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 25]
+    opening_cost_range: [1500.0, 5000.0]
+    seed: 30025
+    capacity_load_balanced: true
+
+  - name: dev_large_tight_2
+    n: 2600
+    m: 44
+    vehicle_capacity: 110
+    route_fixed_cost: 34.0
+    rho_depot_target: 0.88
+    rho_vehicle_target: 0.90
+    spatial: clustered
+    depot_positioning: co_located
+    demand: uniform
+    num_clusters: 8
+    demand_range: [1, 25]
+    opening_cost_range: [1500.0, 5000.0]
+    seed: 30026
+    capacity_load_balanced: true
+
+  - name: dev_large_asym_depot_binding
+    n: 2000
+    m: 38
+    vehicle_capacity: 100
+    route_fixed_cost: 30.0
+    rho_depot_target: 0.90
+    rho_vehicle_target: 0.45
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 25]
+    opening_cost_range: [1200.0, 4500.0]
+    seed: 30027
+    capacity_load_balanced: true
+
+  - name: dev_large_asym_vehicle_binding
+    n: 2200
+    m: 40
+    vehicle_capacity: 100
+    route_fixed_cost: 30.0
+    rho_depot_target: 0.45
+    rho_vehicle_target: 0.90
+    spatial: uniform
+    depot_positioning: grid
+    demand: uniform
+    demand_range: [1, 25]
+    opening_cost_range: [1200.0, 4500.0]
+    seed: 30028
+    capacity_load_balanced: true
+
+  # cluster_proportional demand is unbounded in cluster size (high-bound grows
+  # ~0.3 * cluster_size), so at this scale it produces demands > Q. Use
+  # clustered placement with uniform demand to keep a clustered large instance.
+  - name: dev_large_clustered
+    n: 2800
+    m: 46
+    vehicle_capacity: 110
+    route_fixed_cost: 28.0
+    rho_depot_target: 0.55
+    rho_vehicle_target: 0.60
+    spatial: clustered
+    depot_positioning: grid
+    demand: uniform
+    num_clusters: 8
+    demand_range: [1, 25]
+    opening_cost_range: [1500.0, 5000.0]
+    seed: 30029
+    capacity_load_balanced: true
+
+  - name: dev_large_full
+    n: 3000
+    m: 50
+    vehicle_capacity: 120
+    route_fixed_cost: 30.0
+    rho_depot_target: 0.70
+    rho_vehicle_target: 0.75
+    spatial: mixed
+    depot_positioning: grid
+    demand: uniform
+    num_clusters: 8
+    demand_range: [1, 25]
+    opening_cost_range: [1500.0, 5000.0]
+    seed: 30030
+    capacity_load_balanced: true

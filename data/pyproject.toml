@@ -1,0 +1,50 @@
+[project]
+name = "lrp"
+version = "0.1.0"
+description = "Applied's Routing quickstart for SMIO-Hexaly Location Routing Challenge Monterey 2026."
+authors = [
+    {name = "Leon Lan", email = "leon@appliedrouting.com"},
+    {name = "Niels Wouda", email = "niels@appliedrouting.com"},
+]
+license = "MIT"
+license-files = ["LICENSE.md"]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "pyvrp @ git+https://github.com/AppliedRouting/Location-Routing-Challenge.git@12f9a1e",
+    "numpy>=2.0.0",
+    "tqdm>=4.66.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project.scripts]
+lrp = "lrp.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit>=3.6.2"
+]
+
+[tool.black]
+line-length = 79
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "I", "NPY", "PYI", "Q", "RET", "RSE", "RUF", "SLF", "SIM", "TCH"
+]
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+known-first-party = ["lrp"]
+
+[tool.mypy]
+ignore_missing_imports = true
