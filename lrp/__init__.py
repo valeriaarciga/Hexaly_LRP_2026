@@ -1,15 +1,12 @@
 import os
 
 if os.name == "nt":
-    try:
-        os.add_dll_directory(r"C:\Windows\System32")
-    except (OSError, AttributeError):
-        pass
-
-    try:
-        os.add_dll_directory(r"C:\Program Files\Git\usr\bin")
-    except (OSError, AttributeError):
-        pass
+    for path in os.environ.get("PATH", "").split(os.pathsep):
+        if path and os.path.exists(path):
+            try:
+                os.add_dll_directory(path)
+            except (OSError, AttributeError, ValueError):
+                pass
 
 from .read import read as read
 from .write import write as write
