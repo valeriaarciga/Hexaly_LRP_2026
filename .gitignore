@@ -3,7 +3,9 @@ venv/
 .venv/
 data\venv
 vendor/
-
+-smio-clrp-solver-main/
+.claude
+reto-clrp/
 # Archivos de caché de Python
 __pycache__/
 *.pyc
